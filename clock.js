@@ -14,7 +14,7 @@ let updateFrequency = 10; //milliseconds to next frame
 
 class Hand
 {
-    constructor(length,colour,width)
+    constructor(length, colour, width)
     {
         this.length = length;
         this.colour = colour;
@@ -44,13 +44,15 @@ function ClearCanvas(canvasContext)
 
 function DrawBoard(canvasContext)
 {
+    //Circle.
     canvasContext.beginPath();
     canvasContext.arc(width / 2, height / 2, radius, 0, 2 * Math.PI);
-    canvasContext.stroke();
     
+    
+    //Markers.
     for(let i = 0; i < 60; i++)
     {
-        if (i % 5 == 0)
+        if (i % 5 == 0) //Hour marker.
         {
             canvasContext.moveTo(width / 2 + Math.cos(Math.PI * 2 / 60 * i) * radius * (1 - hourMarkerLenght), height / 2 + Math.sin(Math.PI * 2 / 60 * i) * radius * (1 - hourMarkerLenght));
         }
@@ -59,9 +61,9 @@ function DrawBoard(canvasContext)
             canvasContext.moveTo(width / 2 + Math.cos(Math.PI * 2 / 60 * i) * radius * (1 - minuteMarkerLenght), height / 2 + Math.sin(Math.PI * 2 / 60 * i) * radius * (1 - minuteMarkerLenght));
         }
         canvasContext.lineTo(width / 2 + Math.cos(Math.PI * 2 / 60 * i) * radius, height / 2 + Math.sin(Math.PI * 2 / 60 * i) * radius);
-        canvasContext.stroke();
     }
-
+    canvasContext.stroke();
+    //Numbers.
     canvasContext.font = numberSize + "px Arial";
     for (let i = 1; i < 13; i++)
     {
@@ -78,7 +80,11 @@ function DrawHand(canvasContext)
     times[2] = currentTime.getSeconds() + currentTime.getMilliseconds() / 1000;
     times[1] = currentTime.getMinutes() + times[2] / 60;
     times[0] = currentTime.getHours() % 12 + times[1] / 60;
-    let angles = [times[0] / 12 * Math.PI * 2 - Math.PI * 0.5, times[1] / 60 * Math.PI * 2 - Math.PI * 0.5, times[2] / 60 * Math.PI * 2 - Math.PI * 0.5];
+    let angles = [ //In radians, - half PI to angle starting from top.
+        times[0] / 12 * Math.PI * 2 - Math.PI * 0.5,
+        times[1] / 60 * Math.PI * 2 - Math.PI * 0.5,
+        times[2] / 60 * Math.PI * 2 - Math.PI * 0.5
+    ];
 
     for(let i = 0; i < 3; i++)
     {
